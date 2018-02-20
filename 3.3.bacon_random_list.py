@@ -4,6 +4,10 @@ import datetime
 import random
 import re
 
+'''
+위키질하는 머신이다. 위케백과 메인 페이지부터 bodyContent에 있는 /wiki/링크들을 찾아 아무 링크에나 들어간다.
+'''
+
 random.seed(datetime.datetime.now())
 
 pages = set()
