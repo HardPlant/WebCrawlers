@@ -38,28 +38,7 @@ def getExternalLinks(bsObj, excludeUrl):
     
     return externalLinks
 
-
-def getRandomExternalLinks(startingPage):
-    html = urlopen(startingPage)
-    bsObj = BeautifulSoup(html, 'html.parser')
-    externalLinks = getExternalLinks(bsObj, urlparse(startingPage).netloc)
-    if len(externalLinks) == 0:
-        domain = urlparse(startingPage).scheme + '://' + urlparse(startingPage).netloc
-        internalLinks = getInternalLinks(bsObj, domain)
-        return getRandomExternalLinks(internalLinks[random,randint(0, len(internalLinks)-1)])
-    
-    else:
-        return externalLinks[random,randint(0, len(internalLinks)-1)]
-
-
-def followExternalOnly(startingSite):
-    externalLink = getRandomExternalLinks(startingSite)
-    print("Random external link is :" + externalLink)
-    followExternalOnly(externalLink)
-
-
 def splitAddress(domain):
-    print(domain)
     return domain.split(',')
 
 def getAllExternalLinks(siteUrl):
