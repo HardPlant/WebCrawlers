@@ -8,12 +8,16 @@ import random
 pages = set()
 random.seed(datetime.datetime.now())
 
-def getInternalLinks(bsObj, includeUrl):
+allExtLinks = set()
+allIntLinks = set()
+
+
+def getInternalLinks(bsObj, includeUrl): 
     includeUrl = urlparse(includeUrl).scheme+"://"+urlparse(includeUrl).netloc
     internalLinks = []
 
     # /로 시작하는 링크를 모두 찾는다
-    for link in bsObj.findAll('a', href=re.compile('^(/|.^'+includeUrl+')')):
+    for link in bsObj.findAll('a', href=re.compile("^(/|.^"+includeUrl+")")):
         if link.attrs['href'] is not None:
             if link.attrs['href'] not in internalLinks:
                 if link.attrs['href'].startswith('/'):
@@ -22,6 +26,7 @@ def getInternalLinks(bsObj, includeUrl):
                     internalLinks.append(link.attrs['href'])
     
     return internalLinks
+
 
 def getExternalLinks(bsObj, excludeUrl):
     externalLinks = []
@@ -33,6 +38,7 @@ def getExternalLinks(bsObj, excludeUrl):
     
     return externalLinks
 
+
 def getRandomExternalLinks(startingPage):
     html = urlopen(startingPage)
     bsObj = BeautifulSoup(html, 'html.parser')
@@ -43,11 +49,42 @@ def getRandomExternalLinks(startingPage):
         return getRandomExternalLinks(internalLinks[random,randint(0, len(internalLinks)-1)])
     
     else:
-        return externalLinks[random.randint(0, len(externalLinks)-1)]
+        return externalLinks[random,randint(0, len(internalLinks)-1)]
+
 
 def followExternalOnly(startingSite):
     externalLink = getRandomExternalLinks(startingSite)
     print("Random external link is :" + externalLink)
     followExternalOnly(externalLink)
 
-followExternalOnly("http://oreilly.com")
+
+def splitAddress(domain):
+    return "".split('/')
+
+
+def getAllExternalLinks(siteUrl):
+    html = urlopen(siteUrl)
+    bsObj = BeautifulSoup(html, "html.parser")
+    internalLinks = getInternalLinks(bsObj, splitAddress(domain)[0])
+    externalLinks = getExternalLinks(bsObj, splitAddress(domain)[0])
+
+    for link in externalLinks:
+        if link not in allExtLinks:
+            allExtLinks.add(link)
+            print(link)
+    
+    for link in internalLinks:
+        if link == '/':
+            link = domain
+        elif link[0:2] == '//':
+            link = "http:" + link
+        elif link[0:1] == '/':
+            link = domain + link
+
+    if link not in allIntLinks:
+        print("About to get link: " + link)
+        allIntLinks.add(link)
+        getAllExternalLinks(link)
+
+domain = "http://oreilly.com"
+getAllExternalLinks(domain)
