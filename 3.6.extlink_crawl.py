@@ -59,8 +59,8 @@ def followExternalOnly(startingSite):
 
 
 def splitAddress(domain):
-    return "".split('/')
-
+    print(domain)
+    return domain.split(',')
 
 def getAllExternalLinks(siteUrl):
     html = urlopen(siteUrl)
@@ -77,9 +77,11 @@ def getAllExternalLinks(siteUrl):
         if link == '/':
             link = domain
         elif link[0:2] == '//':
-            link = "http:" + link
+            link = "http:" + domain + link
         elif link[0:1] == '/':
             link = domain + link
+        elif link[0:3] == ":///":
+            link = domain + link[1:]
 
     if link not in allIntLinks:
         print("About to get link: " + link)
