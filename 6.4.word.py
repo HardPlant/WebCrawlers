@@ -15,3 +15,19 @@ textStrings = wordObj.findAll("w:t")
 print(textStrings)
 for textElem in textStrings:
     print(textElem)
+
+
+def findTitle(title):
+    # ...
+    textStrings = wordObj.findAll("w:t")
+    for textElem in textStrings:
+        closeTag = ""
+        try:
+            style = textElem.parent.previousSibling.find("w:pstyle")
+            if style is not None and style["w:val"] == "Title":
+                print("<h1>")
+                closeTag = "</h1>"
+        except AttributeError: # no tags
+            pass
+        print(textElem.text)
+        print(closeTag)
