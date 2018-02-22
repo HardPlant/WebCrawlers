@@ -2,6 +2,8 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import re
 import string
+from collections import Counter
+from collections import OrderedDict
 
 def clean_input(input):
     input = re.sub('\n+', " ", input)
@@ -20,16 +22,18 @@ def clean_input(input):
 
 def ngrams(input, n):
     input = clean_input(input)
+    print(input)
     output = []
     for i in range(len(input)-n+1):
-        output.append(input[i:i+n])
-
-    return output
+        output.append(" ".join((input[i:i+n])))
+        
+    return Counter(output)
     
 
 html = urlopen('http://en.wikipedia.org/wiki/Python_(programming_language)')
 bsObj = BeautifulSoup(html, "html.parser")
 content = bsObj.find("div", {"id":"mw-content-text"}).get_text()
 ngrams = ngrams(content, 2)
+ngrams = OrderedDict(sorted(ngrams.items(), key=lambda t:t[1], reverse=True))
 print(ngrams)
 print("2-grams count is: " + str(len(ngrams)))
