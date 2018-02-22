@@ -12,9 +12,13 @@ msg['Subject'] = "An Email Alert"
 msg['From'] = "abc7988se@gmail.com"
 msg['To'] = "abc7988jpse@gmail.com"
 
-s = smtplib.SMTP('smtp.gmail.com:587')
-s.elho()
-s.starttls()
-s.login(username, password)
-s.send_message(msg)
-s.quit()
+try:
+    s = smtplib.SMTP('smtp.gmail.com:587')
+    s.ehlo()
+    s.starttls()
+    s.login(username, password)
+    s.send_message(msg)
+    s.quit()
+    print("Successed!")
+except Exception as e:
+    print("Failed", e)
