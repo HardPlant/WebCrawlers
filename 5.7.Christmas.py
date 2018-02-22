@@ -14,7 +14,7 @@ def send_mail(subject, body):
     msg = MIMEText(body)
     msg['Subject'] = subject
     msg['From'] = username
-    msg['To'] = "abc7988jpse@gmail.com"
+    msg['To'] = # To
 
     try:
         s = smtplib.SMTP('smtp.gmail.com:587')

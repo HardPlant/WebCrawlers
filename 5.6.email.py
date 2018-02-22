@@ -10,7 +10,7 @@ with open('mail') as file:
 msg = MIMEText("The body of the email is here")
 msg['Subject'] = "An Email Alert"
 msg['From'] = username
-msg['To'] = "abc7988jpse@gmail.com"
+msg['To'] = # to
 
 try:
     s = smtplib.SMTP('smtp.gmail.com:587')
