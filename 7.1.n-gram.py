@@ -5,6 +5,8 @@ import string
 from collections import Counter
 from collections import OrderedDict
 
+import itertools
+
 def clean_input(input):
     input = re.sub('\n+', " ", input)
     input = re.sub('\[[0-9]*\]', "", input)
@@ -23,7 +25,7 @@ def clean_input(input):
 
 def ngrams(input, n):
     input = clean_input(input)
-    print(input)
+    #print(input)
     output = []
     for i in range(len(input)-n+1):
         output.append(" ".join((input[i:i+n])))
@@ -36,5 +38,7 @@ bsObj = BeautifulSoup(html, "html.parser")
 content = bsObj.find("div", {"id":"mw-content-text"}).get_text()
 ngrams = ngrams(content, 2)
 ngrams = OrderedDict(sorted(ngrams.items(), key=lambda t:t[1], reverse=True))
-print(ngrams)
+x = itertools.islice(ngrams.items(), 0, 5)
+for key, value in x:
+    print("{} : {}".format(key,value))
 print("2-grams count is: " + str(len(ngrams)))
