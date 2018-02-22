@@ -4,12 +4,12 @@ from email.mime.text import MIMEText
 with open('mail') as file:
     key = file.read()
     keys = key.split(',')
-    username = keys[0].strip()
+    username = keys[0].strip()+'@gmail.com'
     password = keys[1].strip()
 
 msg = MIMEText("The body of the email is here")
 msg['Subject'] = "An Email Alert"
-msg['From'] = "abc7988se@gmail.com"
+msg['From'] = username
 msg['To'] = "abc7988jpse@gmail.com"
 
 try:
