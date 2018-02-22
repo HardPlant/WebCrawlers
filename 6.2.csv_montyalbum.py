@@ -10,5 +10,10 @@ dictReader = csv.DictReader(dataFile) # csvReader는 첫 번째 행(표의 헤�
 
 print(dictReader.fieldnames)
 
+'''
+for row in csvReader:
+    print('The album \''+row[0]+'\' was released in ' + str(row[1]))
+'''
+
 for row in dictReader:
     print(row)
