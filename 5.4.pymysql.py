@@ -30,18 +30,19 @@ def getLinks(link):
     html = urlopen('https://en.wikipedia.org'+link) # link는 /wiki/~ 형태로 반환된다.
     bsObj = BeautifulSoup(html, "html.parser")
 
-    title = bsObj.find("h1").find("span").get_text()
-    content = bsOjb.find("div", {"id"L"mw-content-text"}).find("p").get_text()
+    title = bsObj.find("h1").get_text()
+    content = bsObj.find("div", {"id":"mw-content-text"}).find("p").get_text()
 
     store(title,content)
     return bsObj.find("div",{'id':'bodyContent'}).findAll("a", href=re.compile('^(/wiki/)((?!:).)*$'))
     
 
 links = getLinks('/wiki/Kevin_Bacon')
-while len(links) > 0:
-    newArticle = links[random.randint(0, len(links) -1)].attrs['href']
-    print(newArticle)
-    links = getLinks(newArticle)
+try:
+    while len(links) > 0:
+        newArticle = links[random.randint(0, len(links) -1)].attrs['href']
+        print(newArticle)
+        links = getLinks(newArticle)
 
 finally:
     cur.close()
